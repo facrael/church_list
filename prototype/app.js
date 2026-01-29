@@ -1676,7 +1676,8 @@ async function openOSMPlace(placeId) {
         image: dgisInfo?.image || '',
         workingHours: dgisInfo?.workingHours || (place.opening_hours ? parseOSMOpeningHours(place.opening_hours) : null),
         services: getDefaultServices(place.type),
-        source: dgisInfo ? 'osm+2gis' : 'osm'
+        source: dgisInfo ? 'osm+2gis' : 'osm',
+        dgisId: dgisInfo?.dgisId || null
     };
 
     appData.selectedChurch = churchData;
@@ -2726,6 +2727,34 @@ function displayChurchDetails(church) {
                 <span class="hours">${hours}</span>
             </div>
         `).join('');
+    } else {
+        hoursContainer.innerHTML = '<p style="color: var(--text-secondary);">Часы работы не указаны</p>';
+    }
+
+    // Update reviews section
+    const reviewsContainer = document.getElementById('church-reviews');
+    if (reviewsContainer) {
+        if (church.reviews > 0 && church.dgisId) {
+            // Has reviews on 2GIS
+            reviewsContainer.innerHTML = `
+                <p class="no-reviews">
+                    <i class="fas fa-star" style="color: var(--star);"></i>
+                    ${church.rating.toFixed(1)} — ${church.reviews} отзывов на 2GIS
+                </p>
+                <a href="https://2gis.ru/moscow/firm/${church.dgisId}" target="_blank" class="reviews-link">
+                    <i class="fas fa-external-link-alt"></i> Читать отзывы на 2GIS
+                </a>
+            `;
+        } else if (church.reviews > 0) {
+            reviewsContainer.innerHTML = `
+                <p class="no-reviews">
+                    <i class="fas fa-star" style="color: var(--star);"></i>
+                    ${church.rating.toFixed(1)} — ${church.reviews} отзывов
+                </p>
+            `;
+        } else {
+            reviewsContainer.innerHTML = '<p class="no-reviews">Отзывов пока нет</p>';
+        }
     }
 
     renderChurchServices(church.services || []);
