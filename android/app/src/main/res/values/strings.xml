@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Религиозный Маркетплейс</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Главная</string>
+    <string name="nav_map">Карта</string>
+    <string name="nav_orders">Заказы</string>
+    <string name="nav_prayers">Молитвы</string>
+    <string name="nav_profile">Профиль</string>
+
+    <!-- Religions -->
+    <string name="religion_all">Все</string>
+    <string name="religion_orthodox">Православие</string>
+    <string name="religion_islam">Ислам</string>
+    <string name="religion_judaism">Иудаизм</string>
+
+    <!-- Common -->
+    <string name="loading">Загрузка...</string>
+    <string name="error">Ошибка</string>
+    <string name="retry">Повторить</string>
+    <string name="cancel">Отмена</string>
+    <string name="save">Сохранить</string>
+    <string name="delete">Удалить</string>
+    <string name="search">Поиск</string>
+    <string name="search_hint">Поиск храма или адреса...</string>
+
+    <!-- Home Screen -->
+    <string name="greeting">Добрый день,</string>
+    <string name="nearby_churches">Ближайшие храмы</string>
+    <string name="popular_services">Популярные услуги</string>
+    <string name="upcoming_events">Ближайшие события</string>
+    <string name="see_all">Все</string>
+
+    <!-- Church Details -->
+    <string name="tab_services">Услуги</string>
+    <string name="tab_schedule">Расписание</string>
+    <string name="tab_about">О храме</string>
+    <string name="tab_reviews">Отзывы</string>
+    <string name="reviews_count">%d отзывов</string>
+    <string name="route">Маршрут</string>
+    <string name="call">Позвонить</string>
+    <string name="add_to_favorites">Добавить в избранное</string>
+    <string name="remove_from_favorites">Удалить из избранного</string>
+
+    <!-- Booking -->
+    <string name="select_date">Выберите дату</string>
+    <string name="select_time">Выберите время</string>
+    <string name="book_service">Записаться</string>
+    <string name="price">Цена</string>
+    <string name="duration">Длительность</string>
+    <string name="minutes">%d мин</string>
+    <string name="free">Бесплатно</string>
+
+    <!-- Payment -->
+    <string name="payment">Оплата</string>
+    <string name="pay">Оплатить</string>
+    <string name="payment_success">Оплата прошла успешно!</string>
+
+    <!-- Donate -->
+    <string name="donate">Пожертвовать</string>
+    <string name="donate_description">Ваше пожертвование поможет храму</string>
+    <string name="custom_amount">Другая сумма</string>
+
+    <!-- Profile -->
+    <string name="my_favorites">Избранное</string>
+    <string name="payment_history">История платежей</string>
+    <string name="settings">Настройки</string>
+    <string name="notifications">Уведомления</string>
+    <string name="help">Помощь</string>
+    <string name="about">О приложении</string>
+    <string name="logout">Выйти</string>
+    <string name="version">Версия %s</string>
+</resources>

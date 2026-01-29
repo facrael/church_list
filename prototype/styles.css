@@ -1,0 +1,3332 @@
+/* ==========================================
+   ПРАВОСЛАВНЫЙ МАРКЕТПЛЕЙС - CSS СТИЛИ
+   Новый дизайн в стиле page.tsx
+   ========================================== */
+
+/* CSS Variables - New Dark Theme */
+:root {
+    /* Primary colors */
+    --primary-color: #FFE473;
+    --primary-light: #FFF0A0;
+    --primary-dark: #E6CD66;
+    --gold: #FFE473;
+    --gold-light: #FFF0A0;
+    --accent: #FFE473;
+
+    /* New dark theme base colors */
+    --background: #080c14;
+    --background-app: #0d1321;
+    --surface: #151d2e;
+    --surface-variant: #1a2540;
+    --surface-elevated: #1e2a42;
+
+    /* Text colors */
+    --text-primary: #FFFFFF;
+    --text-secondary: #9CA3AF;
+    --text-tertiary: #6B7280;
+    --text-muted: #4B5563;
+    --white: #FFFFFF;
+
+    /* Divider and borders */
+    --divider: #1a2540;
+    --border: #1a2540;
+
+    /* Gray scale */
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --gray-900: #111827;
+
+    /* Feature colors */
+    --orthodox-color: #FFE473;
+    --font-color: #3B82F6;
+    --temple-bg: rgba(255, 228, 115, 0.2);
+    --font-bg: rgba(59, 130, 246, 0.2);
+
+    /* Status colors */
+    --success: #10B981;
+    --warning: #FFE473;
+    --error: #EF4444;
+    --star: #FFE473;
+    --green: #10B981;
+    --purple: #A78BFA;
+    --blue: #3B82F6;
+    --red: #EF4444;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow: 0 2px 8px rgba(0,0,0,0.4);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,0.5);
+    --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.5);
+
+    /* Border radius */
+    --radius-sm: 8px;
+    --radius: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-2xl: 32px;
+    --radius-full: 9999px;
+
+    /* Layout */
+    --header-height: 0px;
+    --nav-height: 72px;
+}
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Accessibility - visually hidden but accessible to screen readers */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--background);
+    color: var(--text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+}
+
+/* App Container */
+.app-container {
+    max-width: 480px;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0 auto;
+    background: var(--background-app);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Status Bar */
+.status-bar {
+    height: 48px;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-primary);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-bar-time {
+    font-weight: 600;
+}
+
+.status-bar-icons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.battery-icon {
+    width: 16px;
+    height: 8px;
+    border: 1px solid white;
+    border-radius: 2px;
+    position: relative;
+}
+
+.battery-icon::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 12px;
+    height: 4px;
+    background: white;
+    border-radius: 1px;
+}
+
+/* Content Area */
+.app-content {
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 80px;
+}
+
+.app-content::-webkit-scrollbar {
+    width: 0;
+    display: none;
+}
+
+/* Header - Hidden by default, shown per-screen */
+.app-header {
+    display: none;
+    position: relative;
+    width: 100%;
+    height: var(--header-height);
+    background: transparent;
+    color: var(--text-primary);
+    padding: 0 24px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 100;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    color: inherit;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 18px;
+}
+
+.btn-icon:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.back-btn.hidden {
+    display: none;
+}
+
+.header-right .badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: var(--error);
+    color: white;
+    font-size: 10px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-right {
+    position: relative;
+}
+
+/* Main Content */
+.app-content {
+    padding-top: var(--header-height);
+    padding-bottom: var(--nav-height);
+    min-height: 100vh;
+}
+
+/* Screen Management */
+.screen {
+    display: none;
+    padding: 16px;
+}
+
+.screen.active {
+    display: block;
+}
+
+.screen-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+#screen-home,
+#screen-map {
+    padding: 0;
+}
+
+/* Bottom Navigation */
+.bottom-nav-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--background-app);
+    padding: 8px 16px 16px;
+    z-index: 100;
+}
+
+.bottom-nav {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius);
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 11px;
+}
+
+.nav-item i {
+    font-size: 20px;
+}
+
+.nav-item span {
+    display: none;
+}
+
+.nav-item.active {
+    background: var(--gold);
+    color: #000000;
+}
+
+.nav-item:hover:not(.active) {
+    color: var(--text-secondary);
+}
+
+/* ==========================================
+   HOME SCREEN - New Design
+   ========================================== */
+
+/* Home Header */
+.home-header {
+    padding: 24px 24px 16px;
+}
+
+.home-header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.home-date-section h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.home-holiday {
+    font-size: 14px;
+    color: var(--gold);
+    font-weight: 500;
+}
+
+.home-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.home-action-btn {
+    width: 40px;
+    height: 40px;
+    background: var(--surface);
+    border: none;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+    position: relative;
+    transition: background 0.2s;
+}
+
+.home-action-btn:hover {
+    background: var(--surface-variant);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 20px;
+    height: 20px;
+    background: var(--gold);
+    border-radius: var(--radius-full);
+    font-size: 10px;
+    font-weight: 700;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Featured Card - Event Banner */
+.featured-card {
+    background: linear-gradient(135deg, var(--gold), var(--primary-dark));
+    border-radius: var(--radius-xl);
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.featured-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.featured-info {
+    flex: 1;
+}
+
+.featured-label {
+    font-size: 14px;
+    color: rgba(0,0,0,0.6);
+    margin-bottom: 4px;
+}
+
+.featured-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 8px;
+}
+
+.featured-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 14px;
+    color: rgba(0,0,0,0.7);
+}
+
+.featured-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.featured-tag {
+    background: rgba(0,0,0,0.15);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.featured-days {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.featured-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(0,0,0,0.1);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: rgba(0,0,0,0.7);
+}
+
+/* Quick Actions - New Style */
+.quick-actions {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 0 24px 8px;
+    margin-bottom: 24px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.quick-actions::-webkit-scrollbar {
+    display: none;
+}
+
+.quick-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 72px;
+    cursor: pointer;
+}
+
+.action-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--gold);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.quick-action:hover .action-icon {
+    transform: scale(1.05);
+    background: var(--surface-variant);
+}
+
+.quick-action span {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Section Header */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 24px;
+}
+
+.section-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.see-all {
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.see-all:hover {
+    text-decoration: underline;
+}
+
+/* Nearby Section / Location Cards */
+.nearby-section {
+    padding: 0 24px;
+    margin-bottom: 24px;
+}
+
+.nearby-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.location-card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.location-card:hover {
+    background: var(--surface-variant);
+}
+
+.location-icon,
+.location-image {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+    background: var(--temple-bg);
+    color: var(--gold);
+}
+
+.location-icon.temple,
+.location-image:not(.font) {
+    background: var(--temple-bg);
+    color: var(--gold);
+}
+
+.location-icon.font,
+.location-image.font {
+    background: var(--font-bg);
+    color: var(--blue);
+}
+
+.location-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.location-info h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.location-info .address,
+.location-info .location-address {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.location-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.location-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+}
+
+.location-meta .distance {
+    color: var(--text-secondary);
+}
+
+.location-meta .rating {
+    color: var(--gold);
+}
+
+.location-arrow {
+    color: var(--text-muted);
+    font-size: 20px;
+}
+
+/* Churches List - Horizontal (legacy support) */
+.churches-list.horizontal {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 0 24px 8px;
+    margin-bottom: 20px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.churches-list.horizontal::-webkit-scrollbar {
+    display: none;
+}
+
+.church-card {
+    flex-shrink: 0;
+    width: 200px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.church-card:hover {
+    transform: translateY(-2px);
+}
+
+.church-card-image {
+    height: 120px;
+    background: var(--surface-variant);
+    overflow: hidden;
+}
+
+.church-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.church-card-info {
+    padding: 12px;
+    background: var(--surface);
+}
+
+.church-card-info h3 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-primary);
+}
+
+.church-card-info .distance {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.church-card-info .rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--gold);
+    margin-top: 4px;
+}
+
+/* Services Grid */
+/* Services Section */
+.services-section {
+    padding: 0 24px;
+    margin-bottom: 24px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.service-tile {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.service-tile:hover {
+    background: var(--surface-variant);
+}
+
+.service-tile i {
+    font-size: 24px;
+    color: var(--gold);
+}
+
+.service-tile .name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.service-tile .price {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* Daily Quote */
+.daily-quote {
+    padding: 0 24px;
+    margin-bottom: 24px;
+}
+
+.quote-card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    border-left: 4px solid var(--gold);
+    text-align: center;
+    margin: 0 24px 24px;
+}
+
+.quote-text {
+    font-size: 16px;
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.quote-source {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gold);
+}
+
+/* Legacy service-card-mini support */
+.service-card-mini {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.service-card-mini:hover {
+    background: var(--surface-variant);
+}
+
+.service-card-mini i {
+    font-size: 24px;
+    color: var(--gold);
+}
+
+.service-card-mini span {
+    font-size: 13px;
+    text-align: center;
+    color: var(--text-primary);
+}
+
+.service-card-mini .price {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* Events List */
+.events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.event-card {
+    display: flex;
+    gap: 16px;
+    background: var(--surface);
+    border: 1px solid var(--divider);
+    border-radius: var(--radius);
+    padding: 12px;
+}
+
+.event-date {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    color: var(--white);
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.event-date .day {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.event-date .month {
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.event-info h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.event-info p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.event-info .time {
+    font-size: 12px;
+    color: var(--text-tertiary);
+}
+
+.event-info .time i {
+    margin-right: 4px;
+}
+
+/* Daily Quote */
+.daily-quote {
+    background: linear-gradient(135deg, var(--surface-variant), var(--surface));
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    border: 1px solid var(--divider);
+}
+
+.daily-quote i {
+    color: var(--gold);
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.daily-quote p {
+    font-style: italic;
+    font-size: 16px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.daily-quote .quote-source {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* ==========================================
+   MAP SCREEN
+   ========================================== */
+
+.map-container {
+    position: relative;
+    height: 280px;
+    background: var(--surface-variant);
+    overflow: hidden;
+}
+
+/* Ensure overlay elements stay visible during map interactions */
+.map-container > *:not(#map-2gis):not(.map-loading) {
+    pointer-events: auto;
+}
+
+/* 2GIS Map Container */
+#map-2gis {
+    width: 100%;
+    height: 100%;
+    min-height: 280px;
+    position: relative;
+    z-index: 1;
+}
+
+#map-2gis .leaflet-container {
+    width: 100%;
+    height: 100%;
+}
+
+.map-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--surface), var(--surface-variant));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    z-index: 10;
+}
+
+.map-loading .spinner {
+    margin-bottom: 12px;
+}
+
+.map-loading p {
+    font-size: 14px;
+}
+
+.places-count {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    display: none;
+    pointer-events: none;
+}
+
+/* Map markers pulse animation */
+@keyframes markerPulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.4;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+/* Custom map marker styles */
+.map-custom-marker {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.map-custom-marker:hover {
+    transform: scale(1.15) !important;
+}
+
+/* Legend for map */
+.map-legend {
+    position: absolute;
+    bottom: 70px;
+    left: 12px;
+    background: var(--surface);
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    font-size: 11px;
+    color: var(--text-primary);
+    pointer-events: auto;
+    touch-action: none;
+    user-select: none;
+}
+
+.map-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.map-legend-item:last-child {
+    margin-bottom: 0;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.legend-color.church { background: #C41E3A; }
+.legend-color.spring { background: #1E90FF; }
+
+/* Leaflet custom markers */
+.custom-marker {
+    background: transparent !important;
+    border: none !important;
+}
+.user-marker {
+    background: transparent !important;
+    border: none !important;
+}
+.leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    background: var(--surface) !important;
+    color: var(--text-primary) !important;
+}
+.leaflet-popup-content {
+    margin: 12px;
+    color: var(--text-primary);
+}
+.leaflet-popup-tip {
+    background: var(--surface) !important;
+}
+
+.btn-location {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    background: var(--surface);
+    border: none;
+    border-radius: 50%;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--primary-color);
+    z-index: 1000;
+    transition: transform 0.2s;
+    pointer-events: auto;
+    touch-action: manipulation;
+}
+
+.btn-location:hover {
+    transform: scale(1.1);
+}
+
+.btn-location:active {
+    transform: scale(0.95);
+}
+
+/* Church card placeholder for 2GIS places */
+.church-card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: white;
+}
+
+.church-card-placeholder.church {
+    background: linear-gradient(135deg, var(--orthodox-color), #8B0000);
+}
+
+.church-card-placeholder.font {
+    background: linear-gradient(135deg, #1E90FF, #0066CC);
+}
+
+/* Source badge for 2GIS places */
+.source-badge {
+    background: #10B981;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 600;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+/* Map Filters */
+.map-filters {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 16px 16px 8px;
+    margin-bottom: 12px;
+}
+
+.filter-chip {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.filter-chip:hover {
+    border-color: var(--primary-color);
+}
+
+.filter-chip.active {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+/* Map Search */
+.map-search {
+    position: relative;
+    margin-bottom: 16px;
+    padding: 0 16px;
+}
+
+.map-search i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-tertiary);
+}
+
+.map-search input {
+    width: 100%;
+    padding: 12px 16px 12px 44px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    background: var(--surface);
+    color: var(--text-primary);
+}
+
+.map-search input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.map-search input::placeholder {
+    color: var(--text-tertiary);
+}
+
+/* Churches List - Vertical */
+.churches-list.vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 16px 24px;
+}
+
+.churches-list.vertical .church-card {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.churches-list.vertical .church-card-image {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+}
+
+.churches-list.vertical .church-card-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* ==========================================
+   CHURCH DETAIL SCREEN
+   ========================================== */
+
+#screen-church {
+    padding: 0;
+}
+
+.church-gallery {
+    position: relative;
+    height: 250px;
+    background: var(--surface-variant);
+}
+
+.church-gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gallery-indicators {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+}
+
+.indicator {
+    width: 8px;
+    height: 8px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+}
+
+.indicator.active {
+    background: var(--white);
+}
+
+.church-header {
+    padding: 16px;
+    background: var(--background);
+}
+
+.church-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.church-title-row h1 {
+    font-size: 22px;
+    font-weight: 700;
+    flex: 1;
+}
+
+.btn-favorite {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.btn-favorite.active {
+    color: var(--error);
+    border-color: var(--error);
+}
+
+.btn-favorite.active i {
+    font-weight: 900;
+}
+
+.church-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.religion-badge {
+    padding: 4px 12px;
+    background: var(--primary-color);
+    color: var(--white);
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+}
+
+.rating i {
+    color: var(--gold);
+}
+
+.rating .reviews {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.church-address {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.church-address i {
+    color: var(--primary-color);
+}
+
+.btn-route {
+    margin-left: auto;
+    padding: 8px 16px;
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Church Tabs */
+.church-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--divider);
+    padding: 0 16px;
+    overflow-x: auto;
+    background: var(--surface);
+}
+
+.tab-btn {
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-color);
+}
+
+.tab-content {
+    display: none;
+    padding: 16px;
+    background: var(--background);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Services Categories */
+.services-categories {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+}
+
+.category-chip {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.category-chip.active {
+    background: var(--primary-light);
+    color: var(--white);
+    border-color: var(--primary-light);
+}
+
+/* Services List */
+.services-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.service-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: var(--surface-variant);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.service-card:hover {
+    background: var(--surface-elevated);
+}
+
+.service-card-info h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.service-card-info p {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.service-card-price {
+    text-align: right;
+}
+
+.service-card-price .price {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.service-card-price .duration {
+    font-size: 11px;
+    color: var(--text-tertiary);
+}
+
+/* Schedule */
+.schedule-day {
+    margin-bottom: 20px;
+}
+
+.day-header {
+    font-weight: 600;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--divider);
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.schedule-item {
+    display: flex;
+    gap: 16px;
+    padding: 8px 0;
+}
+
+.schedule-item .time {
+    width: 50px;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.schedule-item .event-name {
+    color: var(--text-primary);
+}
+
+/* About Tab */
+#tab-about p {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.contact-info, .working-hours {
+    margin-bottom: 20px;
+}
+
+.contact-info h3, .working-hours h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    color: var(--text-secondary);
+}
+
+.contact-item i {
+    width: 20px;
+    color: var(--primary-color);
+}
+
+.contact-item a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.working-hours .hours-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+}
+
+.working-hours .day-name {
+    color: var(--text-secondary);
+}
+
+.working-hours .hours {
+    color: var(--text-primary);
+}
+
+/* Reviews */
+.review-summary {
+    text-align: center;
+    padding: 20px;
+    background: var(--surface-variant);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+}
+
+.big-rating {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.review-summary .stars {
+    color: var(--gold);
+    margin: 8px 0;
+}
+
+.reviews-list {
+    margin-top: 16px;
+}
+
+.review-card {
+    padding: 16px;
+    border: 1px solid var(--divider);
+    border-radius: var(--radius);
+    margin-bottom: 12px;
+    background: var(--surface);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.reviewer {
+    display: flex;
+    gap: 12px;
+}
+
+.reviewer .avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-light);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.reviewer-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.reviewer-info .name {
+    font-weight: 600;
+}
+
+.reviewer-info .date {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.review-rating {
+    color: var(--gold);
+    font-size: 12px;
+}
+
+.review-card p {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* Church Actions */
+.church-actions {
+    padding: 16px;
+    background: var(--surface);
+    border-top: 1px solid var(--divider);
+}
+
+.church-actions .btn-donate {
+    width: 100%;
+}
+
+/* ==========================================
+   BOOKING SCREEN
+   ========================================== */
+
+.booking-service-info {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: var(--white);
+    padding: 20px;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+}
+
+.booking-service-info h2 {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.booking-service-info p {
+    opacity: 0.8;
+    margin-bottom: 12px;
+}
+
+.service-meta {
+    display: flex;
+    gap: 16px;
+}
+
+.service-meta .price {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.service-meta .duration {
+    opacity: 0.8;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.form-group input,
+.form-group textarea,
+.form-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    transition: border-color 0.2s;
+    background: var(--surface);
+    color: var(--text-primary);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-tertiary);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Date Picker */
+.date-picker {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+}
+
+.date-option {
+    flex-shrink: 0;
+    width: 52px;
+    padding: 12px 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface);
+    color: var(--text-primary);
+}
+
+.date-option:hover {
+    border-color: var(--primary-color);
+}
+
+.date-option.selected {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+.date-option .day {
+    display: block;
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.date-option.selected .day {
+    color: rgba(255,255,255,0.7);
+}
+
+.date-option .date {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Time Slots */
+.time-slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.time-slot {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.time-slot:hover:not(.disabled) {
+    border-color: var(--primary-color);
+}
+
+.time-slot.selected {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+.time-slot.disabled {
+    background: var(--surface-variant);
+    color: var(--text-tertiary);
+    cursor: not-allowed;
+}
+
+/* Booking Summary */
+.booking-summary {
+    background: var(--surface-variant);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+}
+
+.summary-row.total {
+    border-top: 1px solid var(--divider);
+    margin-top: 8px;
+    padding-top: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-primary);
+}
+
+/* ==========================================
+   PAYMENT SCREEN
+   ========================================== */
+
+.payment-order-summary {
+    background: var(--surface-variant);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.payment-order-summary h3 {
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Payment Methods */
+.payment-methods {
+    margin-bottom: 20px;
+}
+
+.payment-methods h3 {
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.payment-method {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface);
+    color: var(--text-primary);
+}
+
+.payment-method:hover {
+    border-color: var(--primary-color);
+}
+
+.payment-method.selected {
+    border-color: var(--primary-color);
+    background: rgba(27, 58, 107, 0.05);
+}
+
+.payment-method i {
+    font-size: 20px;
+    color: var(--text-secondary);
+    width: 24px;
+}
+
+.payment-method .sbp-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.payment-method span {
+    flex: 1;
+}
+
+.payment-method .fa-check-circle {
+    color: var(--success);
+    opacity: 0;
+}
+
+.payment-method.selected .fa-check-circle {
+    opacity: 1;
+}
+
+/* Card Form */
+.card-form {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.checkbox-label input {
+    width: 18px;
+    height: 18px;
+}
+
+/* Payment Security */
+.payment-security {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    background: var(--surface-variant);
+    border-radius: var(--radius-sm);
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.payment-security i {
+    color: var(--success);
+}
+
+/* Payment Total */
+.payment-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-top: 1px solid var(--divider);
+    margin-bottom: 16px;
+}
+
+.payment-total .amount {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.payment-terms {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 12px;
+}
+
+.payment-terms a {
+    color: var(--primary-color);
+}
+
+/* ==========================================
+   SUCCESS SCREEN
+   ========================================== */
+
+#screen-success {
+    display: none;
+    padding: 40px 16px;
+}
+
+#screen-success.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - var(--header-height) - var(--nav-height));
+}
+
+.success-content {
+    text-align: center;
+    width: 100%;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--success);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    animation: successPulse 0.5s ease;
+}
+
+.success-icon i {
+    font-size: 40px;
+    color: var(--white);
+}
+
+@keyframes successPulse {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.success-content h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.success-content > p {
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.order-card {
+    background: var(--surface-variant);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.order-number {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.order-details .detail-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+}
+
+.order-details .detail-row i {
+    color: var(--primary-color);
+    width: 20px;
+}
+
+.success-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.success-note i {
+    color: var(--primary-color);
+}
+
+/* ==========================================
+   ORDERS SCREEN
+   ========================================== */
+
+.orders-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.orders-tab {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.orders-tab.active {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+.orders-list.hidden {
+    display: none;
+}
+
+.order-card-full {
+    background: var(--surface);
+    border: 1px solid var(--divider);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.order-card-full.completed {
+    opacity: 0.7;
+}
+
+.order-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-bottom: 12px;
+    background: var(--surface-variant);
+    color: var(--text-secondary);
+}
+
+.order-status.pending {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.order-status.confirmed {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.order-header h3 {
+    font-size: 16px;
+}
+
+.order-price {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.order-info .info-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.order-info .info-row i {
+    color: var(--text-tertiary);
+    width: 16px;
+}
+
+.order-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--divider);
+}
+
+/* ==========================================
+   CALENDAR SCREEN
+   ========================================== */
+
+.mini-calendar {
+    background: var(--surface);
+    border: 1px solid var(--divider);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.month-year {
+    font-weight: 600;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+}
+
+.day-name {
+    font-size: 11px;
+    color: var(--text-secondary);
+    padding: 8px 0;
+}
+
+.day-cell {
+    padding: 8px;
+    font-size: 13px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: var(--text-primary);
+}
+
+.day-cell:hover {
+    background: var(--surface-variant);
+}
+
+.day-cell.other {
+    color: var(--text-tertiary);
+}
+
+.day-cell.today {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+.day-cell.holiday {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--error);
+}
+
+/* Calendar Legend */
+.calendar-legend {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.legend-item .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.dot.holiday { background: var(--error); }
+.dot.fast { background: var(--warning); }
+.dot.event { background: var(--success); }
+
+/* Upcoming Holidays */
+.upcoming-holidays h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.holiday-card {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--divider);
+    border-radius: var(--radius);
+    margin-bottom: 12px;
+}
+
+.holiday-card.orthodox { border-left: 4px solid var(--orthodox-color); }
+
+.holiday-date {
+    width: 50px;
+    text-align: center;
+}
+
+.holiday-date .day {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1;
+}
+
+.holiday-date .month {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.holiday-info h4 {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.religion-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--surface-variant);
+    border-radius: 10px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.holiday-info p {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* Calendar day cell selected state */
+.day-cell.selected {
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+}
+
+/* Calendar date info block */
+.calendar-date-info {
+    background: var(--surface-variant);
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+}
+
+.calendar-date-info p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 4px 0;
+}
+
+.calendar-date-info strong {
+    color: var(--text-primary);
+}
+
+/* Calendar sections */
+.calendar-section {
+    margin-bottom: 20px;
+}
+
+.calendar-section h4 {
+    font-size: 14px;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--divider);
+}
+
+/* Holiday card with icon */
+.holiday-card .holiday-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--orthodox-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.holiday-link {
+    font-size: 12px;
+    color: var(--primary-light);
+    text-decoration: none;
+}
+
+.holiday-link:hover {
+    text-decoration: underline;
+}
+
+/* Saint cards */
+.saint-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--surface);
+    border: 1px solid var(--divider);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+}
+
+.saint-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--gold);
+}
+
+.saint-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--surface-variant);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 24px;
+}
+
+.saint-info h5 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.saint-link {
+    font-size: 12px;
+    color: var(--primary-light);
+    text-decoration: none;
+}
+
+.saint-link:hover {
+    text-decoration: underline;
+}
+
+.more-saints {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 8px;
+}
+
+/* Scripture readings */
+.reading-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--divider);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+}
+
+.reading-card i {
+    color: var(--gold);
+    font-size: 20px;
+}
+
+/* Feofan Zatvornik card */
+.feofan-card {
+    background: var(--surface);
+    border: 1px solid var(--divider);
+    border-radius: var(--radius);
+    padding: 16px;
+    border-left: 4px solid var(--gold);
+}
+
+.feofan-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 12px;
+}
+
+.feofan-card a {
+    font-size: 12px;
+    color: var(--primary-light);
+    text-decoration: none;
+}
+
+.feofan-card a:hover {
+    text-decoration: underline;
+}
+
+/* Calendar loading and messages */
+.loading-inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+}
+
+.no-events {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 20px;
+    font-size: 14px;
+}
+
+.error-message {
+    text-align: center;
+    color: var(--error);
+    padding: 20px;
+    font-size: 14px;
+}
+
+/* Calendar source attribution */
+.calendar-source {
+    text-align: center;
+    padding: 12px;
+    margin-top: 16px;
+    color: var(--text-tertiary);
+}
+
+.calendar-source a {
+    color: var(--primary-light);
+    text-decoration: none;
+}
+
+.calendar-source a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================
+   PRAYERS SCREEN - New Design (Молитвослов)
+   ========================================== */
+
+.prayers-screen {
+    /* padding handled by parent .screen */
+}
+
+.prayers-header {
+    margin-bottom: 24px;
+}
+
+.prayers-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.prayers-header p {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Time-based prayer buttons (2x2 grid) */
+.prayer-time-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.prayer-time-btn {
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s;
+}
+
+.prayer-time-btn:hover {
+    transform: scale(1.02);
+}
+
+.prayer-time-btn.morning {
+    background: var(--gold);
+}
+
+.prayer-time-btn.evening {
+    background: var(--surface);
+}
+
+.prayer-time-btn.health {
+    background: var(--surface);
+}
+
+.prayer-time-btn.memorial {
+    background: var(--surface);
+}
+
+.prayer-time-btn i {
+    font-size: 24px;
+}
+
+.prayer-time-btn.morning i { color: #000; }
+.prayer-time-btn.evening i { color: var(--gold); }
+.prayer-time-btn.health i { color: var(--green); }
+.prayer-time-btn.memorial i { color: var(--purple); }
+
+.prayer-time-btn .btn-text {
+    text-align: left;
+}
+
+.prayer-time-btn .btn-text .title {
+    font-size: 15px;
+    font-weight: 600;
+    display: block;
+}
+
+.prayer-time-btn.morning .btn-text .title { color: #000; }
+.prayer-time-btn:not(.morning) .btn-text .title { color: var(--text-primary); }
+
+.prayer-time-btn .btn-text .count {
+    font-size: 12px;
+}
+
+.prayer-time-btn.morning .btn-text .count { color: rgba(0,0,0,0.6); }
+.prayer-time-btn:not(.morning) .btn-text .count { color: var(--text-secondary); }
+
+/* Prayer types grid (health/memorial) */
+.prayer-type-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+/* Main prayers list section */
+.prayers-list-section h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+.prayers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.prayer-item {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.prayer-item:hover {
+    background: var(--surface-variant);
+}
+
+.prayer-item-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--temple-bg);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prayer-item-icon i {
+    font-size: 20px;
+    color: var(--gold);
+}
+
+.prayer-item-info {
+    flex: 1;
+}
+
+.prayer-item-info h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.prayer-item-info .duration {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.prayer-item-arrow {
+    color: var(--text-muted);
+    font-size: 20px;
+}
+
+/* Legacy prayer card support */
+.prayer-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.prayer-card:hover {
+    background: var(--surface-variant);
+}
+
+.prayer-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--temple-bg);
+}
+
+.prayer-icon i {
+    font-size: 20px;
+    color: var(--gold);
+}
+
+.prayer-icon.orthodox { background: var(--temple-bg); }
+
+.prayer-info {
+    flex: 1;
+}
+
+.prayer-info h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.prayer-info .category {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.prayer-actions {
+    display: none;
+}
+
+.prayer-card::after {
+    content: '\f054';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* ==========================================
+   PRAYER DETAIL SCREEN
+   ========================================== */
+
+.prayer-detail-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.prayer-detail-header h1 {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.prayer-religion {
+    display: inline-block;
+    padding: 4px 16px;
+    background: var(--primary-color);
+    color: var(--white);
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.prayer-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--surface-variant);
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+}
+
+.control-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.control-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.prayer-text {
+    font-size: 18px;
+    line-height: 1.8;
+    text-align: center;
+    padding: 20px;
+    background: var(--surface-variant);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+}
+
+.prayer-text p {
+    margin-bottom: 8px;
+}
+
+/* Audio Player */
+.audio-player {
+    margin-top: 20px;
+    padding: 16px;
+    background: var(--surface-variant);
+    border-radius: var(--radius);
+}
+
+.audio-player.hidden {
+    display: none;
+}
+
+.audio-progress {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.audio-time {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.audio-controls {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.audio-controls .btn-play {
+    width: 56px;
+    height: 56px;
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+/* ==========================================
+   DONATE SCREEN
+   ========================================== */
+
+.donate-header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.donate-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.donate-icon i {
+    font-size: 36px;
+    color: var(--white);
+}
+
+.donate-header h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.donate-header p {
+    color: var(--text-secondary);
+}
+
+/* Purpose Options */
+.purpose-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface);
+    color: var(--text-primary);
+}
+
+.radio-option:hover {
+    border-color: var(--primary-color);
+}
+
+.radio-option.selected,
+.radio-option:has(input:checked) {
+    border-color: var(--primary-color);
+    background: rgba(27, 58, 107, 0.05);
+}
+
+.radio-option input {
+    display: none;
+}
+
+/* Amount Options */
+.amount-options {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.amount-btn {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.amount-btn:hover {
+    border-color: var(--primary-color);
+}
+
+.amount-btn.selected {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+.custom-amount {
+    position: relative;
+}
+
+.custom-amount input {
+    width: 100%;
+    padding: 12px 40px 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    background: var(--surface);
+    color: var(--text-primary);
+}
+
+.custom-amount .currency {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+}
+
+/* Donate Total */
+.donate-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    margin-bottom: 16px;
+    border-top: 1px solid var(--divider);
+}
+
+.donate-total .amount {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--gold);
+}
+
+.donate-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 16px;
+}
+
+.donate-note i {
+    margin-right: 4px;
+}
+
+/* ==========================================
+   PROFILE SCREEN - New Design
+   ========================================== */
+
+.profile-screen {
+    /* padding handled by parent .screen */
+}
+
+/* Profile Header - New Style */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.profile-avatar {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--gold), var(--primary-dark));
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    flex-shrink: 0;
+}
+
+.profile-info h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.profile-info .profile-email,
+.profile-info .email {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Profile Menu - New Style */
+.profile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.profile-menu-item {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border: none;
+    width: 100%;
+    text-align: left;
+}
+
+.profile-menu-item:hover {
+    background: var(--surface-variant);
+}
+
+.profile-menu-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--temple-bg);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.profile-menu-item span {
+    flex: 1;
+    font-size: 15px;
+    color: var(--text-primary);
+}
+
+.profile-menu-item .fa-chevron-right {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* Logout Button - New Style */
+.btn-logout {
+    width: 100%;
+    padding: 16px;
+    background: rgba(239, 68, 68, 0.1);
+    border: none;
+    color: var(--red);
+    border-radius: var(--radius-lg);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.btn-logout:hover {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+/* Legacy support */
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: background 0.2s;
+    color: var(--text-primary);
+}
+
+.menu-item:hover {
+    background: var(--surface-variant);
+}
+
+.toggle-switch {
+    width: 44px;
+    height: 24px;
+    background: var(--surface-variant);
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--text-primary);
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s;
+}
+
+.toggle-switch.active {
+    background: var(--gold);
+}
+
+.toggle-switch.active::after {
+    transform: translateX(20px);
+}
+
+.btn-logout:hover {
+    background: var(--error);
+    color: var(--white);
+}
+
+/* ==========================================
+   BUTTONS
+   ========================================== */
+
+.btn-primary {
+    padding: 14px 24px;
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover {
+    background: var(--primary-light);
+}
+
+.btn-primary.btn-full {
+    width: 100%;
+}
+
+.btn-secondary {
+    padding: 14px 24px;
+    background: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 15px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background: var(--surface-variant);
+}
+
+.btn-secondary.btn-full {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 13px;
+}
+
+/* ==========================================
+   TOAST & LOADING
+   ========================================== */
+
+.toast {
+    position: fixed;
+    bottom: calc(var(--nav-height) + 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gray-800);
+    color: var(--white);
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    z-index: 1000;
+    animation: toastIn 0.3s ease;
+}
+
+.toast.hidden {
+    display: none;
+}
+
+.toast i {
+    color: var(--success);
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(18, 18, 18, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.loading-overlay.hidden {
+    display: none;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--divider);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 430px) {
+    .app-container {
+        box-shadow: none;
+    }
+
+    .app-header,
+    .bottom-nav {
+        left: 0;
+        transform: none;
+    }
+}
+
+/* Hidden utility */
+.hidden {
+    display: none !important;
+}

@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Android build
+android/.gradle/
+android/app/build/
+android/build/
+*.apk
+*.aab
+
+# Node
+node_modules/
+
+# Temp
+*.tmp
+*.bak

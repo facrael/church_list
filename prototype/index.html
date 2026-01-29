@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Православный Маркетплейс</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Leaflet CSS (fallback map) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="styles.css">
+    <!-- 2GIS MapGL API -->
+    <script src="https://mapgl.2gis.com/api/js/v1"></script>
+    <!-- Leaflet JS (fallback map) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Hidden Header (for navigation state) -->
+        <header class="app-header" id="app-header">
+            <button class="btn-icon back-btn hidden" id="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="header-title" id="header-title">Главная</h1>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="app-content" id="app-content">
+
+            <!-- Screen: Home/Dashboard - New Design -->
+            <section class="screen active" id="screen-home" style="display: block;">
+                <!-- Home Header with Date -->
+                <div class="home-header">
+                    <div class="home-header-top">
+                        <div class="home-date-section">
+                            <h1 id="home-date-title">29 января, среда</h1>
+                            <p class="home-holiday" id="home-holiday">
+                                <!-- Показывается, если есть праздник -->
+                            </p>
+                        </div>
+                        <div class="home-actions">
+                            <button class="home-action-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <button class="home-action-btn">
+                                <i class="fas fa-bell"></i>
+                                <span class="notification-badge">3</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Featured Event Card -->
+                    <div class="featured-card" id="featured-event">
+                        <div class="featured-content">
+                            <div class="featured-info">
+                                <p class="featured-label">Ближайшее событие</p>
+                                <h2 class="featured-title" id="featured-title">Загрузка...</h2>
+                                <div class="featured-meta" id="featured-meta">
+                                    <!-- Заполняется JS -->
+                                </div>
+                            </div>
+                            <div class="featured-icon">
+                                <i class="fas fa-church"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <div class="quick-action" data-action="map">
+                        <div class="action-icon">
+                            <i class="fas fa-church"></i>
+                        </div>
+                        <span>Храмы</span>
+                    </div>
+                    <div class="quick-action" data-action="fonts">
+                        <div class="action-icon">
+                            <i class="fas fa-droplet"></i>
+                        </div>
+                        <span>Купели</span>
+                    </div>
+                    <div class="quick-action" data-action="donate">
+                        <div class="action-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <span>Пожертвования</span>
+                    </div>
+                    <div class="quick-action" data-action="calendar">
+                        <div class="action-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <span>Календарь</span>
+                    </div>
+                    <div class="quick-action" data-action="candles">
+                        <div class="action-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <span>Свечи</span>
+                    </div>
+                </div>
+
+                <!-- Nearby Section -->
+                <div class="section-header">
+                    <h2>Рядом с вами</h2>
+                    <a href="#" class="see-all" data-action="map">Все</a>
+                </div>
+
+                <div class="nearby-section">
+                    <div class="nearby-list" id="nearby-list">
+                        <!-- Храм -->
+                        <div class="location-card" data-type="church" data-id="1">
+                            <div class="location-image">
+                                <i class="fas fa-church"></i>
+                            </div>
+                            <div class="location-info">
+                                <h3>Храм Христа Спасителя</h3>
+                                <p class="location-address">ул. Волхонка, 15</p>
+                                <div class="location-meta">
+                                    <span class="rating"><i class="fas fa-star"></i> 4.9</span>
+                                    <span class="distance">1.2 км</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Купель -->
+                        <div class="location-card" data-type="font" data-id="1">
+                            <div class="location-image font">
+                                <i class="fas fa-water"></i>
+                            </div>
+                            <div class="location-info">
+                                <h3>Купель при Новодевичьем монастыре</h3>
+                                <p class="location-address">Новодевичий проезд, 1</p>
+                                <div class="location-meta">
+                                    <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+                                    <span class="distance">2.5 км</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Services Section -->
+                <div class="services-section">
+                    <h2 style="font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px;">Услуги</h2>
+                    <div class="services-grid">
+                        <div class="service-tile" data-service="baptism">
+                            <i class="fas fa-gift"></i>
+                            <span class="name">Крещение</span>
+                            <span class="price">от 3000 ₽</span>
+                        </div>
+                        <div class="service-tile" data-service="prayer">
+                            <i class="fas fa-fire"></i>
+                            <span class="name">Молебен</span>
+                            <span class="price">от 500 ₽</span>
+                        </div>
+                        <div class="service-tile" data-service="note">
+                            <i class="fas fa-book-open"></i>
+                            <span class="name">Записки</span>
+                            <span class="price">от 50 ₽</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Quote -->
+                <div class="quote-card">
+                    <p class="quote-text">«Любите друг друга, как Я возлюбил вас»</p>
+                    <p class="quote-source">Ин. 15:12</p>
+                </div>
+            </section>
+
+            <!-- Screen: Map -->
+            <section class="screen" id="screen-map" style="display: none;">
+                <div class="map-container">
+                    <!-- Real 2GIS Map -->
+                    <div id="map-2gis"></div>
+                    <div class="map-loading" id="map-loading">
+                        <div class="spinner"></div>
+                        <p>Загрузка карты...</p>
+                    </div>
+                    <button class="btn-location" id="btn-location">
+                        <i class="fas fa-crosshairs"></i>
+                    </button>
+                    <div class="places-count" id="places-count"></div>
+                    <!-- Map Legend -->
+                    <div class="map-legend">
+                        <div class="map-legend-item">
+                            <span class="legend-color church"></span>
+                            <span>Храмы</span>
+                        </div>
+                        <div class="map-legend-item">
+                            <span class="legend-color spring"></span>
+                            <span>Св. источники</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-filters">
+                    <button class="filter-chip active" data-type="all">Все</button>
+                    <button class="filter-chip" data-type="church">
+                        <i class="fas fa-church"></i> Храмы
+                    </button>
+                    <button class="filter-chip" data-type="spring">
+                        <i class="fas fa-tint"></i> Св. источники
+                    </button>
+                </div>
+
+                <div class="map-search">
+                    <label for="map-search-input" class="visually-hidden">Поиск храма или адреса</label>
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="map-search-input" name="map-search" placeholder="Поиск храма или адреса...">
+                </div>
+
+                <div class="churches-list vertical" id="churches-list">
+                    <!-- Filled by JS -->
+                </div>
+            </section>
+
+            <!-- Screen: Church Details -->
+            <section class="screen" id="screen-church" style="display: none;">
+                <div class="church-gallery" id="church-gallery">
+                    <img src="" alt="Church" id="church-image">
+                    <div class="gallery-indicators">
+                        <span class="indicator active"></span>
+                        <span class="indicator"></span>
+                        <span class="indicator"></span>
+                    </div>
+                </div>
+
+                <div class="church-header">
+                    <div class="church-title-row">
+                        <h1 id="church-name">Храм</h1>
+                        <button class="btn-favorite" id="btn-favorite">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="church-meta">
+                        <span class="rating">
+                            <i class="fas fa-star"></i>
+                            <span id="church-rating">4.8</span>
+                            <span class="reviews">(<span id="church-reviews">1250</span> отзывов)</span>
+                        </span>
+                    </div>
+                    <div class="church-address">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="church-address">ул. Волхонка, 15</span>
+                        <button class="btn-route">
+                            <i class="fas fa-directions"></i> Маршрут
+                        </button>
+                    </div>
+                </div>
+
+                <div class="church-tabs">
+                    <button class="tab-btn active" data-tab="services">Услуги</button>
+                    <button class="tab-btn" data-tab="schedule">Расписание</button>
+                    <button class="tab-btn" data-tab="about">О храме</button>
+                    <button class="tab-btn" data-tab="reviews">Отзывы</button>
+                </div>
+
+                <div class="tab-content active" id="tab-services">
+                    <div class="services-categories">
+                        <button class="category-chip active" data-category="all">Все</button>
+                        <button class="category-chip" data-category="Таинства">Таинства</button>
+                        <button class="category-chip" data-category="Записки">Записки</button>
+                        <button class="category-chip" data-category="Молитвы">Молитвы</button>
+                        <button class="category-chip" data-category="Освящение">Освящение</button>
+                    </div>
+                    <div class="services-list" id="church-services">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-schedule">
+                    <div class="schedule-day">
+                        <div class="day-header">Сегодня, 27 января</div>
+                        <div class="schedule-item">
+                            <span class="time">08:00</span>
+                            <span class="event-name">Утренняя литургия</span>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time">12:00</span>
+                            <span class="event-name">Молебен</span>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time">17:00</span>
+                            <span class="event-name">Вечернее богослужение</span>
+                        </div>
+                    </div>
+                    <div class="schedule-day">
+                        <div class="day-header">Завтра, 28 января</div>
+                        <div class="schedule-item">
+                            <span class="time">09:00</span>
+                            <span class="event-name">Воскресная литургия</span>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time">11:00</span>
+                            <span class="event-name">Крещение</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-about">
+                    <p id="church-description">Описание храма...</p>
+                    <div class="contact-info">
+                        <h3>Контакты</h3>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span id="church-phone">+7 495 952-40-54</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span id="church-email">info@xxc.ru</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-globe"></i>
+                            <a href="#" id="church-website">xxc.ru</a>
+                        </div>
+                    </div>
+                    <div class="working-hours">
+                        <h3>Часы работы</h3>
+                        <div id="church-hours">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-reviews">
+                    <div class="review-summary">
+                        <div class="big-rating">4.8</div>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span>1250 отзывов</span>
+                    </div>
+                    <button class="btn-primary btn-outline">
+                        <i class="fas fa-pen"></i> Написать отзыв
+                    </button>
+                    <div class="reviews-list">
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer">
+                                    <div class="avatar">М</div>
+                                    <div class="reviewer-info">
+                                        <span class="name">Мария</span>
+                                        <span class="date">20 янв 2026</span>
+                                    </div>
+                                </div>
+                                <div class="review-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <p>Прекрасный храм! Очень удобно заказать услугу через приложение.</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer">
+                                    <div class="avatar">И</div>
+                                    <div class="reviewer-info">
+                                        <span class="name">Иван</span>
+                                        <span class="date">15 янв 2026</span>
+                                    </div>
+                                </div>
+                                <div class="review-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                            <p>Крестили здесь сына. Всё прошло замечательно.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="church-actions">
+                    <button class="btn-primary btn-donate" id="btn-church-donate">
+                        <i class="fas fa-hand-holding-heart"></i> Пожертвовать
+                    </button>
+                </div>
+            </section>
+
+            <!-- Screen: Booking -->
+            <section class="screen" id="screen-booking" style="display: none;">
+                <div class="booking-service-info">
+                    <h2 id="booking-service-name">Крещение</h2>
+                    <p id="booking-church-name">Храм Христа Спасителя</p>
+                    <div class="service-meta">
+                        <span class="price" id="booking-price">3000 ₽</span>
+                        <span class="duration" id="booking-duration">
+                            <i class="far fa-clock"></i> 60 мин
+                        </span>
+                    </div>
+                </div>
+
+                <form class="booking-form" id="booking-form">
+                    <div class="form-group">
+                        <label>Выберите дату</label>
+                        <div class="date-picker">
+                            <div class="date-option" data-date="2026-01-28">
+                                <span class="day">Вт</span>
+                                <span class="date">28</span>
+                            </div>
+                            <div class="date-option" data-date="2026-01-29">
+                                <span class="day">Ср</span>
+                                <span class="date">29</span>
+                            </div>
+                            <div class="date-option selected" data-date="2026-01-30">
+                                <span class="day">Чт</span>
+                                <span class="date">30</span>
+                            </div>
+                            <div class="date-option" data-date="2026-01-31">
+                                <span class="day">Пт</span>
+                                <span class="date">31</span>
+                            </div>
+                            <div class="date-option" data-date="2026-02-01">
+                                <span class="day">Сб</span>
+                                <span class="date">1</span>
+                            </div>
+                            <div class="date-option" data-date="2026-02-02">
+                                <span class="day">Вс</span>
+                                <span class="date">2</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Выберите время</label>
+                        <div class="time-slots">
+                            <button type="button" class="time-slot" data-time="09:00">09:00</button>
+                            <button type="button" class="time-slot" data-time="10:00">10:00</button>
+                            <button type="button" class="time-slot selected" data-time="11:00">11:00</button>
+                            <button type="button" class="time-slot" data-time="12:00">12:00</button>
+                            <button type="button" class="time-slot disabled">13:00</button>
+                            <button type="button" class="time-slot" data-time="14:00">14:00</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="names">Имена (для записок/таинств)</label>
+                        <textarea id="names" name="names" placeholder="Введите имена через запятую"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-phone">Контактный телефон</label>
+                        <input type="tel" id="contact-phone" name="contact-phone" placeholder="+7 (___) ___-__-__" value="+7 999 123-45-67" autocomplete="tel">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Комментарий (необязательно)</label>
+                        <textarea id="notes" name="notes" placeholder="Дополнительная информация..."></textarea>
+                    </div>
+                </form>
+
+                <div class="booking-summary">
+                    <div class="summary-row">
+                        <span>Услуга</span>
+                        <span id="summary-service">Крещение</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Дата и время</span>
+                        <span id="summary-datetime">30 янв, 11:00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Итого</span>
+                        <span id="summary-total">3000 ₽</span>
+                    </div>
+                </div>
+
+                <button class="btn-primary btn-full" id="btn-to-payment">
+                    Перейти к оплате
+                </button>
+            </section>
+
+            <!-- Screen: Payment -->
+            <section class="screen" id="screen-payment" style="display: none;">
+                <div class="payment-order-summary">
+                    <h3>Детали заказа</h3>
+                    <div class="order-item">
+                        <span>Крещение</span>
+                        <span>3000 ₽</span>
+                    </div>
+                    <div class="order-item">
+                        <span>Храм Христа Спасителя</span>
+                    </div>
+                    <div class="order-item">
+                        <span>30 января 2026, 11:00</span>
+                    </div>
+                </div>
+
+                <div class="payment-methods">
+                    <h3>Способ оплаты</h3>
+                    <div class="payment-method selected" data-method="card">
+                        <i class="far fa-credit-card"></i>
+                        <span>Банковская карта</span>
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="payment-method" data-method="sbp">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234CAF50' d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E" alt="СБП" class="sbp-icon">
+                        <span>СБП</span>
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="payment-method" data-method="yoomoney">
+                        <i class="fas fa-wallet"></i>
+                        <span>ЮMoney</span>
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+
+                <div class="card-form" id="card-form">
+                    <div class="form-group">
+                        <label for="card-number">Номер карты</label>
+                        <input type="text" id="card-number" name="card-number" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="cc-number">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="card-expiry">Срок</label>
+                            <input type="text" id="card-expiry" name="card-expiry" placeholder="ММ/ГГ" maxlength="5" autocomplete="cc-exp">
+                        </div>
+                        <div class="form-group">
+                            <label for="card-cvv">CVV</label>
+                            <input type="password" id="card-cvv" name="card-cvv" placeholder="***" maxlength="3" autocomplete="cc-csc">
+                        </div>
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="save-card" name="save-card" checked>
+                        <span>Сохранить карту для быстрой оплаты</span>
+                    </label>
+                </div>
+
+                <div class="payment-security">
+                    <i class="fas fa-lock"></i>
+                    <span>Безопасная оплата через ЮKassa</span>
+                </div>
+
+                <div class="payment-total">
+                    <span>К оплате</span>
+                    <span class="amount">3000 ₽</span>
+                </div>
+
+                <button class="btn-primary btn-full btn-pay" id="btn-pay">
+                    <i class="fas fa-lock"></i> Оплатить 3000 ₽
+                </button>
+
+                <p class="payment-terms">
+                    Нажимая кнопку, вы соглашаетесь с <a href="#">условиями оферты</a>
+                </p>
+            </section>
+
+            <!-- Screen: Payment Success -->
+            <section class="screen" id="screen-success" style="display: none;">
+                <div class="success-content">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>Оплата прошла успешно!</h2>
+                    <p>Ваш заказ подтверждён</p>
+
+                    <div class="order-card">
+                        <div class="order-number">Заказ #12345</div>
+                        <div class="order-details">
+                            <div class="detail-row">
+                                <i class="fas fa-church"></i>
+                                <span>Крещение</span>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Храм Христа Спасителя</span>
+                            </div>
+                            <div class="detail-row">
+                                <i class="far fa-calendar"></i>
+                                <span>30 января 2026, 11:00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="success-note">
+                        <i class="fas fa-envelope"></i>
+                        Подтверждение отправлено на ваш email
+                    </p>
+
+                    <button class="btn-primary btn-full" id="btn-to-orders">
+                        Мои заказы
+                    </button>
+                    <button class="btn-secondary btn-full" id="btn-to-home">
+                        На главную
+                    </button>
+                </div>
+            </section>
+
+            <!-- Screen: Orders -->
+            <section class="screen" id="screen-orders" style="display: none;">
+                <h2 class="screen-title">Мои заказы</h2>
+                <div class="orders-tabs">
+                    <button class="orders-tab active" data-status="active">Активные</button>
+                    <button class="orders-tab" data-status="completed">Завершённые</button>
+                </div>
+
+                <div class="orders-list" id="orders-active">
+                    <div class="order-card-full">
+                        <div class="order-status pending">Ожидает подтверждения</div>
+                        <div class="order-header">
+                            <h3>Крещение</h3>
+                            <span class="order-price">3000 ₽</span>
+                        </div>
+                        <div class="order-info">
+                            <div class="info-row">
+                                <i class="fas fa-church"></i>
+                                <span>Храм Христа Спасителя</span>
+                            </div>
+                            <div class="info-row">
+                                <i class="far fa-calendar"></i>
+                                <span>30 января 2026, 11:00</span>
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn-outline btn-sm">Отменить</button>
+                            <button class="btn-primary btn-sm">Подробнее</button>
+                        </div>
+                    </div>
+
+                    <div class="order-card-full">
+                        <div class="order-status confirmed">Подтверждён</div>
+                        <div class="order-header">
+                            <h3>Молебен о здравии</h3>
+                            <span class="order-price">500 ₽</span>
+                        </div>
+                        <div class="order-info">
+                            <div class="info-row">
+                                <i class="fas fa-church"></i>
+                                <span>Храм Василия Блаженного</span>
+                            </div>
+                            <div class="info-row">
+                                <i class="far fa-calendar"></i>
+                                <span>2 февраля 2026, 12:00</span>
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn-primary btn-sm">Подробнее</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="orders-list hidden" id="orders-completed">
+                    <div class="order-card-full completed">
+                        <div class="order-status">Завершён</div>
+                        <div class="order-header">
+                            <h3>Записка о здравии</h3>
+                            <span class="order-price">50 ₽</span>
+                        </div>
+                        <div class="order-info">
+                            <div class="info-row">
+                                <i class="fas fa-church"></i>
+                                <span>Храм Христа Спасителя</span>
+                            </div>
+                            <div class="info-row">
+                                <i class="far fa-calendar"></i>
+                                <span>20 января 2026</span>
+                            </div>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn-outline btn-sm">Повторить</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Screen: Calendar -->
+            <section class="screen" id="screen-calendar" style="display: none;">
+                <div class="mini-calendar">
+                    <div class="calendar-header">
+                        <button class="btn-icon" id="prev-month"><i class="fas fa-chevron-left"></i></button>
+                        <span class="month-year">Загрузка...</span>
+                        <button class="btn-icon" id="next-month"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="calendar-grid">
+                        <!-- Заполняется JavaScript -->
+                    </div>
+                </div>
+
+                <div class="calendar-legend">
+                    <span class="legend-item"><span class="dot holiday"></span> Праздник</span>
+                    <span class="legend-item"><span class="dot event"></span> Память святых</span>
+                </div>
+
+                <div class="upcoming-holidays">
+                    <!-- Заполняется JavaScript через API ortox.ru -->
+                    <div class="loading-inline">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Загрузка православного календаря...
+                    </div>
+                </div>
+
+                <div class="calendar-source">
+                    <small>Данные: <a href="https://ortox.ru" target="_blank">ortox.ru</a></small>
+                </div>
+            </section>
+
+            <!-- Screen: Prayers/Content -->
+            <!-- Screen: Prayers -->
+            <section class="screen" id="screen-prayers" style="display: none;">
+                <div class="prayers-screen">
+                    <div class="prayers-header">
+                        <h1>Молитвослов</h1>
+                        <p>Собрание молитв на каждый день</p>
+                    </div>
+
+                    <!-- Time-based Prayer Buttons -->
+                    <div class="prayer-time-grid">
+                        <button class="prayer-time-btn morning" data-category="morning">
+                            <i class="fas fa-sun"></i>
+                            <div class="btn-text">
+                                <span class="title">Утренние</span>
+                                <span class="count">12 молитв</span>
+                            </div>
+                        </button>
+                        <button class="prayer-time-btn evening" data-category="evening">
+                            <i class="fas fa-moon"></i>
+                            <div class="btn-text">
+                                <span class="title">Вечерние</span>
+                                <span class="count">10 молитв</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Health and Memorial Prayers -->
+                    <div class="prayer-type-grid">
+                        <button class="prayer-time-btn health" data-category="health">
+                            <i class="fas fa-heart"></i>
+                            <div class="btn-text">
+                                <span class="title">За здравие</span>
+                                <span class="count">8 молитв</span>
+                            </div>
+                        </button>
+                        <button class="prayer-time-btn memorial" data-category="memorial">
+                            <i class="fas fa-fire"></i>
+                            <div class="btn-text">
+                                <span class="title">За упокой</span>
+                                <span class="count">6 молитв</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Main Prayers List -->
+                    <div class="prayers-list-section">
+                        <h2>Основные молитвы</h2>
+                        <div class="prayers-list">
+                            <div class="prayer-item" data-prayer="otche-nash">
+                                <div class="prayer-item-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div class="prayer-item-info">
+                                    <h3>Отче наш</h3>
+                                    <span class="duration">2 мин</span>
+                                </div>
+                                <i class="fas fa-chevron-right prayer-item-arrow"></i>
+                            </div>
+
+                            <div class="prayer-item" data-prayer="simvol-very">
+                                <div class="prayer-item-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div class="prayer-item-info">
+                                    <h3>Символ веры</h3>
+                                    <span class="duration">3 мин</span>
+                                </div>
+                                <i class="fas fa-chevron-right prayer-item-arrow"></i>
+                            </div>
+
+                            <div class="prayer-item" data-prayer="bogoroditse">
+                                <div class="prayer-item-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div class="prayer-item-info">
+                                    <h3>Богородице Дево</h3>
+                                    <span class="duration">1 мин</span>
+                                </div>
+                                <i class="fas fa-chevron-right prayer-item-arrow"></i>
+                            </div>
+
+                            <div class="prayer-item" data-prayer="angel">
+                                <div class="prayer-item-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div class="prayer-item-info">
+                                    <h3>Молитва Ангелу Хранителю</h3>
+                                    <span class="duration">2 мин</span>
+                                </div>
+                                <i class="fas fa-chevron-right prayer-item-arrow"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Screen: Prayer Detail -->
+            <section class="screen" id="screen-prayer-detail" style="display: none;">
+                <div class="prayer-detail-header">
+                    <h1 id="prayer-title">Отче наш</h1>
+                </div>
+
+                <div class="prayer-controls">
+                    <button class="control-btn" id="btn-decrease-font">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <span>Aa</span>
+                    <button class="control-btn" id="btn-increase-font">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="control-btn" id="btn-play-prayer">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="control-btn" id="btn-favorite-prayer">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+
+                <div class="prayer-text" id="prayer-text">
+                    <p>Отче наш, Иже еси на небесех!</p>
+                    <p>Да святится имя Твое,</p>
+                    <p>да приидет Царствие Твое,</p>
+                    <p>да будет воля Твоя,</p>
+                    <p>яко на небеси и на земли.</p>
+                    <p>Хлеб наш насущный даждь нам днесь;</p>
+                    <p>и остави нам долги наша,</p>
+                    <p>якоже и мы оставляем должником нашим;</p>
+                    <p>и не введи нас во искушение,</p>
+                    <p>но избави нас от лукаваго.</p>
+                </div>
+
+                <div class="audio-player hidden" id="audio-player">
+                    <div class="audio-progress">
+                        <div class="progress-bar" style="width: 30%"></div>
+                    </div>
+                    <div class="audio-time">
+                        <span>0:45</span>
+                        <span>2:30</span>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="btn-icon"><i class="fas fa-backward"></i></button>
+                        <button class="btn-icon btn-play"><i class="fas fa-pause"></i></button>
+                        <button class="btn-icon"><i class="fas fa-forward"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Screen: Donate -->
+            <section class="screen" id="screen-donate" style="display: none;">
+                <div class="donate-header">
+                    <div class="donate-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h2>Пожертвование</h2>
+                    <p>Поддержите храм вашим пожертвованием</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Выберите храм</label>
+                    <select id="donate-church" class="form-select">
+                        <option value="">-- Выберите храм --</option>
+                        <option value="1">Храм Христа Спасителя</option>
+                        <option value="2">Храм Василия Блаженного</option>
+                        <option value="3">Казанский собор</option>
+                        <option value="4">Храм Покрова на Нерли</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Назначение</label>
+                    <div class="purpose-options">
+                        <label class="radio-option selected">
+                            <input type="radio" id="purpose-general" name="purpose" value="general" checked>
+                            <span>Общие нужды</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" id="purpose-restoration" name="purpose" value="restoration">
+                            <span>Реставрация</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" id="purpose-charity" name="purpose" value="charity">
+                            <span>Помощь нуждающимся</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" id="purpose-school" name="purpose" value="school">
+                            <span>Воскресная школа</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Сумма пожертвования</label>
+                    <div class="amount-options">
+                        <button class="amount-btn" data-amount="100">100 ₽</button>
+                        <button class="amount-btn" data-amount="500">500 ₽</button>
+                        <button class="amount-btn selected" data-amount="1000">1000 ₽</button>
+                        <button class="amount-btn" data-amount="5000">5000 ₽</button>
+                    </div>
+                    <div class="custom-amount">
+                        <label for="custom-amount" class="visually-hidden">Другая сумма</label>
+                        <input type="number" placeholder="Другая сумма" id="custom-amount" name="custom-amount">
+                        <span class="currency">₽</span>
+                    </div>
+                </div>
+
+                <label class="checkbox-label">
+                    <input type="checkbox" id="recurring-donation" name="recurring-donation">
+                    <span>Ежемесячное пожертвование</span>
+                </label>
+
+                <label class="checkbox-label">
+                    <input type="checkbox" id="anonymous-donation" name="anonymous-donation">
+                    <span>Анонимное пожертвование</span>
+                </label>
+
+                <div class="donate-total">
+                    <span>Сумма пожертвования</span>
+                    <span class="amount" id="donate-amount">1000 ₽</span>
+                </div>
+
+                <button class="btn-primary btn-full" id="btn-donate">
+                    <i class="fas fa-heart"></i> Пожертвовать
+                </button>
+
+                <p class="donate-note">
+                    <i class="fas fa-info-circle"></i>
+                    Комиссия платформы составляет 3-5% от суммы пожертвования
+                </p>
+            </section>
+
+            <!-- Screen: Profile -->
+            <section class="screen" id="screen-profile" style="display: none;">
+                <div class="profile-screen">
+                    <div class="profile-header">
+                        <div class="profile-avatar">А</div>
+                        <div class="profile-info">
+                            <h1>Алексей Иванов</h1>
+                            <p class="profile-email">alexey@email.com</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-menu">
+                        <button class="profile-menu-item" data-action="favorites">
+                            <div class="profile-menu-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <span>Избранное</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="profile-menu-item" data-action="payments">
+                            <div class="profile-menu-icon">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <span>Способы оплаты</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="profile-menu-item" data-action="notifications">
+                            <div class="profile-menu-icon">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <span>Уведомления</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="profile-menu-item" data-action="donate">
+                            <div class="profile-menu-icon">
+                                <i class="fas fa-hand-holding-heart"></i>
+                            </div>
+                            <span>Пожертвования</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="profile-menu-item" data-action="settings">
+                            <div class="profile-menu-icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <span>Настройки</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="profile-menu-item" data-action="help">
+                            <div class="profile-menu-icon">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <span>Помощь</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <button class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Выйти из аккаунта</span>
+                    </button>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav-wrapper">
+            <nav class="bottom-nav" id="bottom-nav">
+                <button class="nav-item active" data-screen="home">
+                    <i class="fas fa-home"></i>
+                    <span>Главная</span>
+                </button>
+                <button class="nav-item" data-screen="map">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Карта</span>
+                </button>
+                <button class="nav-item" data-screen="orders">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Заказы</span>
+                </button>
+                <button class="nav-item" data-screen="prayers">
+                    <i class="fas fa-book"></i>
+                    <span>Молитвы</span>
+                </button>
+                <button class="nav-item" data-screen="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Профиль</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="toast hidden" id="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toast-message">Сообщение</span>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay hidden" id="loading">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

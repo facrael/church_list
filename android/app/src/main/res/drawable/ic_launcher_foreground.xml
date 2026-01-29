@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Church icon -->
+    <group android:translateX="27" android:translateY="27">
+        <!-- Cross -->
+        <path
+            android:fillColor="#D4AF37"
+            android:pathData="M27,8 L27,16 L35,16 L35,20 L27,20 L27,46 L23,46 L23,20 L15,20 L15,16 L23,16 L23,8 Z"/>
+        <!-- Church base -->
+        <path
+            android:fillColor="#D4AF37"
+            android:pathData="M10,46 L40,46 L40,50 L10,50 Z"/>
+        <!-- Roof -->
+        <path
+            android:fillColor="#D4AF37"
+            android:pathData="M25,20 L10,35 L40,35 Z"/>
+    </group>
+</vector>

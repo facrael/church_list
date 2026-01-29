@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="primary">#1B3A6B</color>
+    <color name="primary_dark">#0d1d36</color>
+    <color name="primary_light">#2a5a9e</color>
+
+    <!-- Accent Colors -->
+    <color name="accent">#D4AF37</color>
+    <color name="accent_light">#e8cf7a</color>
+
+    <!-- Religion Colors -->
+    <color name="orthodox">#C41E3A</color>
+    <color name="orthodox_light">#e85a6f</color>
+    <color name="islam">#006400</color>
+    <color name="islam_light">#2e8b2e</color>
+    <color name="judaism">#1E90FF</color>
+    <color name="judaism_light">#5ba8ff</color>
+
+    <!-- Background Colors -->
+    <color name="background">#F8F9FA</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="card_background">#FFFFFF</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#666666</color>
+    <color name="text_hint">#999999</color>
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <!-- Status Colors -->
+    <color name="success">#28A745</color>
+    <color name="warning">#FFC107</color>
+    <color name="error">#DC3545</color>
+
+    <!-- Other -->
+    <color name="divider">#E0E0E0</color>
+    <color name="star">#F5A623</color>
+    <color name="shadow">#1A000000</color>
+</resources>
