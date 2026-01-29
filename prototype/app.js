@@ -2732,28 +2732,48 @@ function displayChurchDetails(church) {
     }
 
     // Update reviews section
-    const reviewsContainer = document.getElementById('church-reviews');
-    if (reviewsContainer) {
+    const reviewSummary = document.getElementById('review-summary');
+    const reviewsList = document.getElementById('church-reviews-list');
+
+    if (reviewSummary) {
+        if (church.reviews > 0) {
+            // Generate stars based on rating
+            const fullStars = Math.floor(church.rating);
+            const hasHalf = church.rating % 1 >= 0.5;
+            let starsHtml = '';
+            for (let i = 0; i < fullStars; i++) {
+                starsHtml += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalf) {
+                starsHtml += '<i class="fas fa-star-half-alt"></i>';
+            }
+            for (let i = fullStars + (hasHalf ? 1 : 0); i < 5; i++) {
+                starsHtml += '<i class="far fa-star"></i>';
+            }
+
+            reviewSummary.innerHTML = `
+                <div class="big-rating">${church.rating.toFixed(1)}</div>
+                <div class="stars">${starsHtml}</div>
+                <span>${church.reviews} отзывов</span>
+            `;
+        } else {
+            reviewSummary.innerHTML = `
+                <div class="big-rating">—</div>
+                <div class="stars"><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+                <span>Нет отзывов</span>
+            `;
+        }
+    }
+
+    if (reviewsList) {
         if (church.reviews > 0 && church.dgisId) {
-            // Has reviews on 2GIS
-            reviewsContainer.innerHTML = `
-                <p class="no-reviews">
-                    <i class="fas fa-star" style="color: var(--star);"></i>
-                    ${church.rating.toFixed(1)} — ${church.reviews} отзывов на 2GIS
-                </p>
+            reviewsList.innerHTML = `
                 <a href="https://2gis.ru/moscow/firm/${church.dgisId}" target="_blank" class="reviews-link">
                     <i class="fas fa-external-link-alt"></i> Читать отзывы на 2GIS
                 </a>
             `;
-        } else if (church.reviews > 0) {
-            reviewsContainer.innerHTML = `
-                <p class="no-reviews">
-                    <i class="fas fa-star" style="color: var(--star);"></i>
-                    ${church.rating.toFixed(1)} — ${church.reviews} отзывов
-                </p>
-            `;
         } else {
-            reviewsContainer.innerHTML = '<p class="no-reviews">Отзывов пока нет</p>';
+            reviewsList.innerHTML = '<p class="no-reviews">Отзывы появятся после добавления места в 2GIS</p>';
         }
     }
 
