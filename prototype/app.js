@@ -2007,8 +2007,16 @@ function initLeafletMap() {
         mapInitialized = true;
         mapIsLoading = false;
 
-        // Add markers
+        // Add default markers
         addLeafletMarkers();
+
+        // Load and add OSM places
+        loadOSMPlaces().then(() => {
+            if (osmPlacesData) {
+                console.log('Adding OSM markers to Leaflet map...');
+                addOSMMarkersToMap();
+            }
+        });
 
         showToast('Карта загружена (OpenStreetMap)');
         console.log('Leaflet map initialized successfully');
