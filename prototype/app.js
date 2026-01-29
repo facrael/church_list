@@ -1304,27 +1304,42 @@ function getTypeColor(type) {
 
 async function loadOSMPlaces() {
     if (osmPlacesLoaded && osmPlacesData) {
+        console.log('OSM data already loaded');
         return osmPlacesData;
     }
 
-    try {
-        // Try to load from local JSON file
-        const response = await fetch('../data/places-russia.json');
-        if (!response.ok) {
-            console.warn('OSM places file not found, using default data');
-            return null;
+    // Try multiple paths
+    const paths = [
+        '../data/places-russia.json',
+        'data/places-russia.json',
+        '/data/places-russia.json'
+    ];
+
+    for (const path of paths) {
+        try {
+            console.log(`Trying to load OSM data from: ${path}`);
+            const response = await fetch(path);
+
+            if (!response.ok) {
+                console.warn(`Path ${path} returned ${response.status}`);
+                continue;
+            }
+
+            const data = await response.json();
+            osmPlacesData = data;
+            osmPlacesLoaded = true;
+
+            const total = data.meta?.total_places || Object.values(data.regions || {}).flat().length;
+            console.log(`OSM data loaded successfully from ${path}: ${total} places`);
+            showToast(`Загружено ${total.toLocaleString()} мест`);
+            return data;
+        } catch (error) {
+            console.warn(`Failed to load from ${path}:`, error.message);
         }
-
-        const data = await response.json();
-        osmPlacesData = data;
-        osmPlacesLoaded = true;
-
-        console.log(`OSM data loaded: ${data.meta?.total_places || 0} places`);
-        return data;
-    } catch (error) {
-        console.error('Error loading OSM places:', error);
-        return null;
     }
+
+    console.error('Could not load OSM places from any path');
+    return null;
 }
 
 function getOSMPlacesForRegion(regionSlug) {
@@ -1393,25 +1408,34 @@ function detectRegionByCoords(lat, lng) {
 }
 
 async function addOSMMarkersToMap(types = null) {
-    if (!map) return;
+    if (!map) {
+        console.log('Map not ready for OSM markers');
+        return;
+    }
 
     // Load OSM data if not loaded
     await loadOSMPlaces();
 
     if (!osmPlacesData) {
-        console.log('No OSM data available');
+        console.log('No OSM data available for markers');
         return;
     }
 
-    // Get places near current position
+    console.log('Current position:', currentPosition);
+    console.log('Filter types:', types);
+
+    // Get places near current position (increased radius to 50km)
     const places = getOSMPlacesNearby(
         currentPosition.lat,
         currentPosition.lng,
-        30, // 30km radius
+        50, // 50km radius
         types
     );
 
-    console.log(`Adding ${places.length} OSM markers to map`);
+    console.log(`Found ${places.length} OSM places within 50km`);
+    if (places.length > 0) {
+        console.log('First place:', places[0]);
+    }
 
     // Add markers for each place
     places.forEach((place, index) => {
