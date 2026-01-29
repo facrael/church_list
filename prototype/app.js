@@ -2731,6 +2731,38 @@ function displayChurchDetails(church) {
         hoursContainer.innerHTML = '<p style="color: var(--text-secondary);">Часы работы не указаны</p>';
     }
 
+    // Update schedule tab
+    const scheduleContainer = document.getElementById('church-schedule');
+    if (scheduleContainer) {
+        if (church.workingHours) {
+            scheduleContainer.innerHTML = `
+                <div class="working-hours-schedule">
+                    <h3><i class="fas fa-clock"></i> Часы работы</h3>
+                    ${Object.entries(church.workingHours).map(([day, hours]) => `
+                        <div class="hours-row">
+                            <span class="day-name">${dayNames[day] || day}</span>
+                            <span class="hours">${hours}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <p class="schedule-note">
+                    <i class="fas fa-info-circle"></i>
+                    Расписание богослужений уточняйте в храме по телефону${church.phone ? ': ' + church.phone : ''}
+                </p>
+            `;
+        } else {
+            scheduleContainer.innerHTML = `
+                <p class="no-data">
+                    <i class="fas fa-calendar-times"></i>
+                    Расписание не указано
+                </p>
+                <p class="schedule-note">
+                    Уточняйте расписание богослужений в храме
+                </p>
+            `;
+        }
+    }
+
     // Update reviews section
     const reviewSummary = document.getElementById('review-summary');
     const reviewsList = document.getElementById('church-reviews-list');
@@ -2781,20 +2813,32 @@ function displayChurchDetails(church) {
     elements.headerTitle.textContent = church.name;
 }
 
-function renderChurchServices(services) {
+function renderChurchServices(services, isDefaultServices = true) {
     const container = document.getElementById('church-services');
-    container.innerHTML = services.map(service => `
+
+    let html = '';
+
+    if (isDefaultServices && services.length > 0) {
+        html += `<p class="services-note">
+            <i class="fas fa-info-circle"></i>
+            Типичные услуги. Уточняйте цены и наличие в храме.
+        </p>`;
+    }
+
+    html += services.map(service => `
         <div class="service-card" data-service-id="${service.id}">
             <div class="service-card-info">
                 <h3>${service.name}</h3>
                 <p>${service.description}</p>
             </div>
             <div class="service-card-price">
-                <span class="price">${service.price > 0 ? service.price + ' ₽' : 'Бесплатно'}</span>
+                <span class="price">${service.price > 0 ? '~' + service.price + ' ₽' : 'Бесплатно'}</span>
                 ${service.duration > 0 ? `<span class="duration">${service.duration} мин</span>` : ''}
             </div>
         </div>
     `).join('');
+
+    container.innerHTML = html;
 
     container.querySelectorAll('.service-card').forEach(card => {
         card.addEventListener('click', () => {
