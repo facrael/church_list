@@ -1424,18 +1424,22 @@ async function addOSMMarkersToMap(types = null) {
     console.log('Current position:', currentPosition);
     console.log('Filter types:', types);
 
-    // Get places near current position (increased radius to 50km)
-    const places = getOSMPlacesNearby(
+    // Get places near current position (10km radius, max 100 markers)
+    let places = getOSMPlacesNearby(
         currentPosition.lat,
         currentPosition.lng,
-        50, // 50km radius
+        10, // 10km radius
         types
     );
 
-    console.log(`Found ${places.length} OSM places within 50km`);
-    if (places.length > 0) {
-        console.log('First place:', places[0]);
+    // Limit markers to prevent lag
+    const MAX_MARKERS = 100;
+    if (places.length > MAX_MARKERS) {
+        console.log(`Limiting from ${places.length} to ${MAX_MARKERS} markers`);
+        places = places.slice(0, MAX_MARKERS);
     }
+
+    console.log(`Adding ${places.length} OSM markers to map`);
 
     // Add markers for each place
     places.forEach((place, index) => {
@@ -1519,6 +1523,88 @@ async function addOSMMarkersToMap(types = null) {
     updatePlacesCount(places.length);
 }
 
+// Fetch additional details from 2GIS API
+async function fetch2GISDetails(name, lat, lng) {
+    try {
+        // Search for place by name near coordinates
+        const searchQuery = encodeURIComponent(name);
+        const url = `https://catalog.api.2gis.com/3.0/items?q=${searchQuery}&point=${lng},${lat}&radius=500&key=${DGIS_API_KEY}&fields=items.point,items.address,items.schedule,items.contact_groups,items.reviews,items.external_content,items.description&page_size=1`;
+
+        const response = await fetch(url);
+        if (!response.ok) {
+            console.warn('2GIS API request failed:', response.status);
+            return null;
+        }
+
+        const data = await response.json();
+
+        if (!data.result?.items?.length) {
+            console.log('No 2GIS match found for:', name);
+            return null;
+        }
+
+        const item = data.result.items[0];
+        console.log('2GIS data found:', item.name);
+
+        // Extract working hours
+        let workingHours = null;
+        if (item.schedule) {
+            workingHours = parseSchedule(item.schedule);
+        }
+
+        // Extract photos
+        let image = '';
+        if (item.external_content?.photos?.length) {
+            image = item.external_content.photos[0].preview_url || '';
+        }
+
+        return {
+            name: item.name,
+            address: item.address_name || '',
+            description: item.description || '',
+            phone: extractPhone(item.contact_groups),
+            email: extractEmail(item.contact_groups),
+            website: extractWebsite(item.contact_groups),
+            rating: item.reviews?.general_rating || 0,
+            reviews: item.reviews?.general_review_count || 0,
+            workingHours: workingHours,
+            image: image,
+            dgisId: item.id
+        };
+    } catch (error) {
+        console.error('Error fetching 2GIS details:', error);
+        return null;
+    }
+}
+
+function extractEmail(contactGroups) {
+    if (!contactGroups?.length) return '';
+    for (const group of contactGroups) {
+        if (group.contacts) {
+            for (const contact of group.contacts) {
+                if (contact.type === 'email') {
+                    return contact.value;
+                }
+            }
+        }
+    }
+    return '';
+}
+
+function extractWebsite(contactGroups) {
+    if (!contactGroups?.length) return '';
+    for (const group of contactGroups) {
+        if (group.contacts) {
+            for (const contact of group.contacts) {
+                if (contact.type === 'website') {
+                    return contact.value;
+                }
+            }
+        }
+    }
+    return '';
+}
+
 function createOSMMarkerIcon(type) {
     const typeConfig = PLACE_TYPES[type] || PLACE_TYPES.church;
     const size = 40;
@@ -1549,7 +1635,7 @@ function createOSMMarkerIcon(type) {
     return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
 }
 
-function openOSMPlace(placeId) {
+async function openOSMPlace(placeId) {
     if (!osmPlacesData || !osmPlacesData.regions) return;
 
     // Find place by ID
@@ -1564,28 +1650,33 @@ function openOSMPlace(placeId) {
         return;
     }
 
+    showToast('Загрузка информации...');
+
     const typeConfig = PLACE_TYPES[place.type] || PLACE_TYPES.church;
 
-    // Create church-like object for display
+    // Try to get additional info from 2GIS
+    const dgisInfo = await fetch2GISDetails(place.name, place.lat, place.lng);
+
+    // Create church-like object for display (merge OSM + 2GIS data)
     const churchData = {
         id: place.id,
-        name: place.name,
+        name: dgisInfo?.name || place.name,
         type: place.type,
         typeName: typeConfig.label,
-        description: `${typeConfig.label}${place.region ? `, ${place.region}` : ''}`,
-        address: place.address || place.region || '',
+        description: dgisInfo?.description || `${typeConfig.label}${place.region ? `, ${place.region}` : ''}`,
+        address: dgisInfo?.address || place.address || place.region || '',
         distance: place.distance || '',
-        rating: 4.5,
-        reviews: 0,
-        phone: place.phone || '',
-        email: '',
-        website: place.website || '',
+        rating: dgisInfo?.rating || 0,
+        reviews: dgisInfo?.reviews || 0,
+        phone: dgisInfo?.phone || place.phone || '',
+        email: dgisInfo?.email || '',
+        website: dgisInfo?.website || place.website || '',
         lat: place.lat,
         lng: place.lng,
-        image: '',
-        workingHours: place.opening_hours ? parseOSMOpeningHours(place.opening_hours) : null,
+        image: dgisInfo?.image || '',
+        workingHours: dgisInfo?.workingHours || (place.opening_hours ? parseOSMOpeningHours(place.opening_hours) : null),
         services: getDefaultServices(place.type),
-        source: 'osm'
+        source: dgisInfo ? 'osm+2gis' : 'osm'
     };
 
     appData.selectedChurch = churchData;
